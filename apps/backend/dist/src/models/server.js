@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const addresses_1 = __importDefault(require("../routes/addresses"));
+const cors_1 = __importDefault(require("cors"));
 class Server {
     constructor() {
         this.apiPaths = {
@@ -12,11 +13,20 @@ class Server {
         };
         this.app = (0, express_1.default)();
         this.port = process.env.PORT || "8000";
-        // My routes
+        // Initialize methods
+        this.middlewares();
         this.routes();
     }
     routes() {
         this.app.use(this.apiPaths.addresses, addresses_1.default);
+    }
+    middlewares() {
+        // CORS
+        this.app.use((0, cors_1.default)());
+        // Read payload
+        this.app.use(express_1.default.json());
+        // Public folder
+        this.app.use(express_1.default.static("public"));
     }
     listen() {
         this.app.listen(this.port, () => {

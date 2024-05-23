@@ -1,5 +1,6 @@
 import express, { Application } from "express";
 import addressRoutes from "../routes/addresses";
+import cors from "cors";
 
 class Server {
   private app: Application;
@@ -12,12 +13,24 @@ class Server {
     this.app = express();
     this.port = process.env.PORT || "8000";
 
-    // My routes
+    // Initialize methods
+    this.middlewares();
     this.routes();
   }
 
   routes(): void {
     this.app.use(this.apiPaths.addresses, addressRoutes);
+  }
+
+  middlewares(): void {
+    // CORS
+    this.app.use(cors());
+
+    // Read payload
+    this.app.use(express.json());
+
+    // Public folder
+    this.app.use(express.static("public"));
   }
 
   listen(): void {
