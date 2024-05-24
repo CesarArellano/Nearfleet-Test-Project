@@ -1,3 +1,25 @@
+class Addresses {
+  final List<Address> results;
+
+  Addresses({
+    this.results = const [],
+  });
+
+  Addresses copyWith({
+    List<Address>? results,
+  }) => Addresses(
+    results: results ?? this.results,
+  );
+
+  factory Addresses.fromJson(Map<String, dynamic> json) => Addresses(
+    results: json["addreses"] == null ? [] : List<Address>.from(json["addreses"]?.map((x) => Address.fromJson(x))),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "addreses": List<dynamic>.from(results.map((x) => x.toJson())),
+  };
+}
+
 class Address {
   final int? id;
   final String? pseudonym;
@@ -75,7 +97,5 @@ class Address {
     "country": country,
     "latitude": latitude,
     "longitude": longitude,
-    "createdAt": createdAt?.toIso8601String(),
-    "updatedAt": updatedAt?.toIso8601String(),
   };
 }

@@ -1,12 +1,23 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nearfleet_app/domain/repositories/addresses_repository.dart';
 
 import '../../domain/entities/address.dart';
 
 class AddressesBloc extends Cubit<AddressesState> {
-  AddressesBloc() : super(const AddressesState());
+  final AddressesRepository addressesRepository;
 
-  void emitLoading(bool value) => emit(state.copyWith(isLoading: value));
+  AddressesBloc({
+    required this.addressesRepository,
+  }) : super(const AddressesState());
+
+  Future<void> getAddresses() async {
+    _emitLoading();
+    final addreses = await addressesRepository.getAddresses();
+    emit(state.copyWith(addresses: addreses, isLoading: false));
+  }
+
+  void _emitLoading() => emit(state.copyWith(isLoading: true));
 }
 
 class AddressesState extends Equatable {
