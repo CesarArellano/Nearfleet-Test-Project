@@ -13,8 +13,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteAddress = exports.updateAddress = exports.createAddress = exports.getAddresses = void 0;
-const address_1 = __importDefault(require("../models/address"));
 const sequelize_1 = require("sequelize");
+const address_1 = __importDefault(require("../models/address"));
 const getAddresses = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const addreses = yield address_1.default.findAll();
     try {
@@ -25,7 +25,7 @@ const getAddresses = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     catch (error) {
         console.log({ error });
         res.status(500).json({
-            msg: "Talk to the system administrator",
+            msg: "Failed to retrieve addresses, please talk to the system administrator",
         });
     }
 });
@@ -36,7 +36,7 @@ const createAddress = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         const address = address_1.default.build(body);
         yield address.save();
         res.json({
-            msg: "User was successfully created",
+            msg: "Address was successfully created",
             address,
         });
     }
@@ -44,12 +44,12 @@ const createAddress = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         console.log({ error });
         if (error instanceof sequelize_1.ValidationError) {
             return res.status(500).json({
-                msg: "Talk to the system administrator",
+                msg: "Validation error",
                 errors: error.errors.map((e) => e.message),
             });
         }
         res.status(500).json({
-            msg: "Talk to the system administrator",
+            msg: "Failed to create address, please talk to the system administrator",
         });
     }
 });
@@ -61,12 +61,12 @@ const updateAddress = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         const address = yield address_1.default.findByPk(id);
         if (!address) {
             res.status(404).json({
-                msg: "Address doesn't exists",
+                msg: "Address doesn't exist",
             });
         }
         yield (address === null || address === void 0 ? void 0 : address.update(body));
         res.json({
-            msg: "User was successfully updated",
+            msg: "Address was successfully updated",
             address,
         });
     }
@@ -80,23 +80,22 @@ const updateAddress = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 exports.updateAddress = updateAddress;
 const deleteAddress = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    const { body } = req;
     try {
         const address = yield address_1.default.findByPk(id);
         if (!address) {
             res.status(404).json({
-                msg: "Address doesn't exists",
+                msg: "Address doesn't exist",
             });
         }
         yield (address === null || address === void 0 ? void 0 : address.destroy());
         res.json({
-            msg: "User was successfully deleted",
+            msg: "Address was successfully deleted",
         });
     }
     catch (error) {
         console.log({ error });
         res.status(500).json({
-            msg: "Talk to the system administrator",
+            msg: "Failed to delete address, please talk to the system administrator",
         });
     }
 });
