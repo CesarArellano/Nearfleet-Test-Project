@@ -6,6 +6,9 @@ class AppTheme {
   static ThemeData getTheme() {
     return ThemeData(
       colorSchemeSeed: const Color(0xFF209BA1),
+      appBarTheme: const AppBarTheme(
+        backgroundColor: Color(0xFF00F2FF)
+      )
     );
   }
 }

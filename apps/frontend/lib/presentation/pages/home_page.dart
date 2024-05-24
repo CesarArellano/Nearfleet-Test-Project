@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nearfleet_app/presentation/providers/addresses_bloc.dart';
 
+import '../widgets/widgets.dart';
+
 class HomePage extends StatefulWidget {
   
   const HomePage({super.key});
@@ -29,6 +31,7 @@ class _HomePageState extends State<HomePage> {
     return  Scaffold(
       appBar: AppBar(
         title: const Text('Addresses'),
+        centerTitle: false,
       ),
       body: const _HomePageBody(),
       floatingActionButton: FloatingActionButton(
@@ -56,9 +59,7 @@ class _HomePageBody extends StatelessWidget {
     }
 
     if(addresses.isEmpty) {
-      return const Center(
-        child: Text('Empty List')
-      );
+      return const EmptyFullScreen();
     }
 
     return Padding(
