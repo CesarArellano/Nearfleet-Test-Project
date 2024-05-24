@@ -20,6 +20,7 @@ const getAddresses = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     try {
         res.json({
             addreses,
+            msg: "Ok",
         });
     }
     catch (error) {

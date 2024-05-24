@@ -1,23 +1,19 @@
-class Addresses {
-  final List<Address> results;
+class AddressResponse {
+  final String? msg;
+  final Address? address;
+  final List<Address>? results;
 
-  Addresses({
-    this.results = const [],
+  AddressResponse({
+    this.msg,
+    this.address,
+    this.results,
   });
 
-  Addresses copyWith({
-    List<Address>? results,
-  }) => Addresses(
-    results: results ?? this.results,
-  );
-
-  factory Addresses.fromJson(Map<String, dynamic> json) => Addresses(
+  factory AddressResponse.fromJson(Map<String, dynamic> json) => AddressResponse(
+    msg: json["msg"],
+    address: json["address"] == null ? null : Address.fromJson(json["address"]),
     results: json["addreses"] == null ? [] : List<Address>.from(json["addreses"]?.map((x) => Address.fromJson(x))),
   );
-
-  Map<String, dynamic> toJson() => {
-    "addreses": List<dynamic>.from(results.map((x) => x.toJson())),
-  };
 }
 
 class Address {

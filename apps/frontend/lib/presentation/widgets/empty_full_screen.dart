@@ -7,7 +7,7 @@ class EmptyFullScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final deviceWidth = MediaQuery.sizeOf(context).width;
-    final size = (deviceWidth > 800) ? deviceWidth * 0.65 : deviceWidth * 0.9;
+    final size = (deviceWidth > 800) ? deviceWidth * 0.5 : deviceWidth * 0.9;
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,

@@ -136,6 +136,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  geocode:
+    dependency: "direct main"
+    description:
+      name: geocode
+      sha256: cf9727c369bb3703b97d6e440225962dc27b7f3c686662fe3cdcc91cbfb7074d
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.3"
   get:
     dependency: "direct main"
     description:
@@ -216,6 +224,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.15.4"
+  http:
+    dependency: transitive
+    description:
+      name: http
+      sha256: "761a297c042deedc1ffbb156d6e2af13886bb305c2a343a4d972504cd67dd938"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.1"
   http_parser:
     dependency: transitive
     description:
@@ -328,6 +344,38 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.8"
+  pointer_interceptor:
+    dependency: "direct main"
+    description:
+      name: pointer_interceptor
+      sha256: d0a8e660d1204eaec5bd34b34cc92174690e076d2e4f893d9d68c486a13b07c4
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.10.1+1"
+  pointer_interceptor_ios:
+    dependency: transitive
+    description:
+      name: pointer_interceptor_ios
+      sha256: a6906772b3205b42c44614fcea28f818b1e5fdad73a4ca742a7bd49818d9c917
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.10.1"
+  pointer_interceptor_platform_interface:
+    dependency: transitive
+    description:
+      name: pointer_interceptor_platform_interface
+      sha256: "0597b0560e14354baeb23f8375cd612e8bd4841bf8306ecb71fcd0bb78552506"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.10.0+1"
+  pointer_interceptor_web:
+    dependency: transitive
+    description:
+      name: pointer_interceptor_web
+      sha256: a6237528b46c411d8d55cdfad8fcb3269fc4cbb26060b14bff94879165887d1e
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.10.2"
   provider:
     dependency: transitive
     description:

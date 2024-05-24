@@ -13,8 +13,8 @@ class AddressesDatasourceImpl implements AddressesDatasource {
   Future<Address?> createAddress(Address newAddress) async {
     try {
       final response = await networkService.post('/addresses', data: newAddress.toJson());
-      final address = Address.fromJson(response.data);
-      return address;
+      final result = AddressResponse.fromJson(response.data);
+      return result.address;
     } catch (e) {
       log('$e');
       return null;
@@ -36,8 +36,8 @@ class AddressesDatasourceImpl implements AddressesDatasource {
   Future<List<Address>> getAddresses() async {
     try {
       final response = await networkService.get('/addresses');
-      final addresses = Addresses.fromJson(response.data);
-      return addresses.results;
+      final result = AddressResponse.fromJson(response.data);
+      return result.results ?? [];
     } catch (e) {
       log('$e');
       return [];
@@ -48,8 +48,8 @@ class AddressesDatasourceImpl implements AddressesDatasource {
   Future<Address?> updateAddress(Address newAddress) async{
     try {
       final response = await networkService.put('/addresses/${newAddress.id}', data: newAddress.toJson());
-      final address = Address.fromJson(response.data);
-      return address;
+      final result = AddressResponse.fromJson(response.data);
+      return result.address;
     } catch (e) {
       log('$e');
       return null;

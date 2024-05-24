@@ -1,8 +1,9 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nearfleet_app/domain/repositories/addresses_repository.dart';
 
+import '../../config/extensions/null_extensions.dart';
 import '../../domain/entities/address.dart';
+import '../../domain/repositories/addresses_repository.dart';
 
 class AddressesBloc extends Cubit<AddressesState> {
   final AddressesRepository addressesRepository;
@@ -15,6 +16,29 @@ class AddressesBloc extends Cubit<AddressesState> {
     _emitLoading();
     final addreses = await addressesRepository.getAddresses();
     emit(state.copyWith(addresses: addreses, isLoading: false));
+  }
+
+  Future<Address?> createAddress(Address newAddress) async {
+    final newLatitude = newAddress.latitude.nonNullValue();
+    final newLongitude = newAddress.longitude.nonNullValue();
+
+    if (_addressValidation(newLatitude, newLongitude)) return null;
+
+    _emitLoading();
+
+    final addreses = await addressesRepository.createAddress(newAddress);
+    
+    if(addreses != null) {
+      emit(state.copyWith(addresses: [...state.addresses, addreses]));
+    }
+
+    emit(state.copyWith(isLoading: false));
+
+    return addreses;
+  }
+
+  bool _addressValidation(double lt, double lng) {
+    return state.addresses.any((address) => address.latitude == lt && address.longitude == lng);
   }
 
   void _emitLoading() => emit(state.copyWith(isLoading: true));

@@ -6,7 +6,7 @@ class NetworkService {
   final Dio _dio;
 
   NetworkService({String baseUrl = ''})
-      : _dio = Dio(BaseOptions(baseUrl: baseUrl));
+      : _dio = Dio(BaseOptions(baseUrl: baseUrl, ));
 
   Future<Response> get(String path, {Map<String, dynamic>? queryParameters}) async {
     try {
