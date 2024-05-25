@@ -3,17 +3,17 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:geocode/geocode.dart' hide Address;
+import 'package:geocode/geocode.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:nearfleet_app/config/constants/nearfleet_constants.dart';
 import 'package:nearfleet_app/config/extensions/null_extensions.dart';
-import 'package:nearfleet_app/config/helpers/helpers.dart';
-import 'package:nearfleet_app/domain/entities/address.dart';
-import 'package:nearfleet_app/presentation/providers/addresses_bloc.dart';
 import 'package:pointer_interceptor/pointer_interceptor.dart';
 
+import '../../config/constants/nearfleet_constants.dart';
 import '../../config/di/di.dart';
+import '../../config/helpers/helpers.dart';
+import '../../infrastructure/mappers/address_mapper.dart';
+import '../providers/addresses_bloc.dart';
 
 class MapsPage extends StatefulWidget {
   const MapsPage({super.key});
@@ -80,34 +80,29 @@ class MapSampleState extends State<MapsPage> {
   Future<void> _onSubmit() async {
     final addressesBloc = context.read<AddressesBloc>();
     final geoCode = getIt.get<GeoCode>();
-    final address = await geoCode.reverseGeocoding(
+    final geoAddress = await geoCode.reverseGeocoding(
       latitude: currentPosition.latitude,
       longitude: currentPosition.longitude
     );
 
-    final result = await addressesBloc.createAddress(Address(
-      city: address.city,
-      country: address.countryCode,
-      state: address.region,
-      street: address.streetAddress.nonNullValueEmpty(address.streetNumber.toString()),
-      zipCode: address.postal.nonNullValue(),
-      latitude: currentPosition.latitude,
-      longitude: currentPosition.longitude,
-    ));
+    final newAddress = AddressMapper.addressToEntity(geoAddress, currentPosition);
+    final result = await addressesBloc.createAddress(newAddress);
 
     if (!mounted) return;
 
-    if (result == null) {
+    final serverMsg = result.msg.nonNullValue();
+    
+    if (result.address == null) {
       return Helpers.showSnackbar(
         context,
-        message: 'Address was not successfully created',
+        message: serverMsg,
         isAnErrorMessage: true,
       );
     }
 
     Helpers.showSnackbar(
       context,
-      message: 'Address was successfully created',
+      message: serverMsg,
     );
 
     context.pop();

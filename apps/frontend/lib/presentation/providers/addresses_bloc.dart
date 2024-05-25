@@ -18,23 +18,23 @@ class AddressesBloc extends Cubit<AddressesState> {
     emit(state.copyWith(addresses: addreses, isLoading: false));
   }
 
-  Future<Address?> createAddress(Address newAddress) async {
+  Future<AddressResponse> createAddress(Address newAddress) async {
     final newLatitude = newAddress.latitude.nonNullValue();
     final newLongitude = newAddress.longitude.nonNullValue();
 
-    if (_addressValidation(newLatitude, newLongitude)) return null;
+    if (_addressValidation(newLatitude, newLongitude)) return AddressResponse();
 
     _emitLoading();
 
-    final addreses = await addressesRepository.createAddress(newAddress);
+    final addresesResponse = await addressesRepository.createAddress(newAddress);
     
-    if(addreses != null) {
-      emit(state.copyWith(addresses: [...state.addresses, addreses]));
+    if(addresesResponse.address != null) {
+      emit(state.copyWith(addresses: [...state.addresses, addresesResponse.address!]));
     }
 
     emit(state.copyWith(isLoading: false));
 
-    return addreses;
+    return addresesResponse;
   }
 
   bool _addressValidation(double lt, double lng) {

@@ -10,14 +10,14 @@ class AddressesDatasourceImpl implements AddressesDatasource {
   AddressesDatasourceImpl({required this.networkService});
 
   @override
-  Future<Address?> createAddress(Address newAddress) async {
+  Future<AddressResponse> createAddress(Address newAddress) async {
     try {
       final response = await networkService.post('/addresses', data: newAddress.toJson());
       final result = AddressResponse.fromJson(response.data);
-      return result.address;
+      return result;
     } catch (e) {
       log('$e');
-      return null;
+      return AddressResponse();
     }
   }
 
@@ -45,14 +45,14 @@ class AddressesDatasourceImpl implements AddressesDatasource {
   }
 
   @override
-  Future<Address?> updateAddress(Address newAddress) async{
+  Future<AddressResponse> updateAddress(Address newAddress) async{
     try {
       final response = await networkService.put('/addresses/${newAddress.id}', data: newAddress.toJson());
       final result = AddressResponse.fromJson(response.data);
-      return result.address;
+      return result;
     } catch (e) {
       log('$e');
-      return null;
+      return AddressResponse();
     }
   }
 

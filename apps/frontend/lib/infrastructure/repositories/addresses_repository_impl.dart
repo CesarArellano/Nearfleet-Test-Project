@@ -9,7 +9,7 @@ class AddressesRepositoryImpl implements AddressesRepository {
   AddressesRepositoryImpl(this.datasource);
 
   @override
-  Future<Address?> createAddress(Address newAddress) {
+  Future<AddressResponse> createAddress(Address newAddress) {
     return datasource.createAddress(newAddress);
   }
 
@@ -24,7 +24,7 @@ class AddressesRepositoryImpl implements AddressesRepository {
   }
 
   @override
-  Future<Address?> updateAddress(Address newAddress) {
+  Future<AddressResponse> updateAddress(Address newAddress) {
     return datasource.updateAddress(newAddress);
   }
   
