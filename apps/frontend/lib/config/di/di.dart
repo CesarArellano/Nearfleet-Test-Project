@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:geocode/geocode.dart';
 import 'package:get_it/get_it.dart';
 
@@ -12,7 +13,7 @@ final GetIt getIt = GetIt.instance;
 
 void setupLocator() {
   final GeoCode geoCode = GeoCode();
-  final NetworkService networkService = NetworkService(baseUrl: Environment.baseURL);
+  final NetworkService networkService = NetworkService(Dio(BaseOptions(baseUrl: Environment.baseURL)));
   final AddressesDatasource addressesDatasource = AddressesDatasourceImpl(networkService: networkService);
   final AddressesRepository addressesRepository = AddressesRepositoryImpl(addressesDatasource);
   

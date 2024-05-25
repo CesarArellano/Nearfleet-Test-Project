@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:nearfleet_app/config/extensions/null_extensions.dart';
 
@@ -23,7 +24,7 @@ class AddressResponse {
   );
 }
 
-class Address {
+class Address extends Equatable {
   final int? id;
   final String? pseudonym;
   final String? street;
@@ -36,7 +37,7 @@ class Address {
   final DateTime? createdAt;
   final DateTime? updatedAt;
 
-  Address({
+  const Address({
     this.id,
     this.pseudonym,
     this.street,
@@ -77,6 +78,17 @@ class Address {
       updatedAt: updatedAt ?? this.updatedAt,
   );
 
+  factory Address.mockModel() => const Address(
+    id: 1,
+    street: 'Privada Lucca',
+    city: 'Tecámac',
+    state: 'Estado de México',
+    country: 'México',
+    latitude: double.maxFinite,
+    longitude: double.minPositive,
+    zipCode: '55749',
+  );
+
   factory Address.fromJson(Map<String, dynamic> json) => Address(
     id: json["id"],
     pseudonym: json["pseudonym"],
@@ -103,4 +115,19 @@ class Address {
   };
 
   LatLng get latLng => LatLng(latitude.nonNullValue(), longitude.nonNullValue());
+  
+  @override
+  List<Object?> get props => [
+    id,
+    pseudonym,
+    street,
+    city,
+    state,
+    zipCode,
+    country,
+    latitude,
+    longitude,
+    createdAt,
+    updatedAt
+  ];
 }

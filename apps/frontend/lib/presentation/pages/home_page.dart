@@ -38,6 +38,7 @@ class _HomePageState extends State<HomePage> {
       ),
       body: const _HomePageBody(),
       floatingActionButton: FloatingActionButton(
+        key: const Key('add_fab_home_page'),
         child: const Icon(Icons.add),
         onPressed: () => context.push('/maps')
       ),

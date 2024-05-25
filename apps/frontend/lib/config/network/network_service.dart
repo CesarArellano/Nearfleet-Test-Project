@@ -5,8 +5,8 @@ import 'package:dio/dio.dart';
 class NetworkService {
   final Dio _dio;
 
-  NetworkService({String baseUrl = ''})
-      : _dio = Dio(BaseOptions(baseUrl: baseUrl, ));
+  NetworkService(Dio dio)
+      : _dio = dio;
 
   Future<Response> get(String path, {Map<String, dynamic>? queryParameters}) async {
     try {
