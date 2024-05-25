@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:geocode/geocode.dart' hide Address;
+import 'package:geocode/geocode.dart' as geocode;
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pointer_interceptor/pointer_interceptor.dart';
@@ -120,11 +120,24 @@ class MapSampleState extends State<MapsPage> {
 
   Future<void> _onSubmit() async {
     final addressesBloc = context.read<AddressesBloc>();
-    final geoCode = getIt.get<GeoCode>();
-    final geoAddress = await geoCode.reverseGeocoding(
-      latitude: currentPosition.latitude,
-      longitude: currentPosition.longitude
-    );
+    final geoCode = getIt.get<geocode.GeoCode>();
+
+    late geocode.Address geoAddress;
+
+    try {
+      geoAddress = await geoCode.reverseGeocoding(
+        latitude: currentPosition.latitude,
+        longitude: currentPosition.longitude
+      );
+    } catch (_) {
+      if(!mounted) return;
+
+      return Helpers.showSnackbar(
+        context,
+        message: 'Error, trying to obtain address',
+        isAnErrorMessage: true,
+      ); 
+    }
 
     Address newAddress = AddressMapper.addressToEntity(geoAddress, currentPosition);
     
