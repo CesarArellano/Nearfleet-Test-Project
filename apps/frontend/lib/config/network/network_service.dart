@@ -49,18 +49,25 @@ class NetworkService {
   }
 
   void _handleError(DioException error) {
-    if (error.type == DioExceptionType.connectionTimeout) {
-      log('Connection Timeout');
-    } else if (error.type == DioExceptionType.sendTimeout) {
-      log('Send Timeout');
-    } else if (error.type == DioExceptionType.receiveTimeout) {
-      log('Receive Timeout');
-    } else if (error.type == DioExceptionType.badResponse) {
-      log('Server Error: ${error.response?.statusCode}');
-    } else if (error.type == DioExceptionType.cancel) {
-      log('Request Cancelled');
-    } else {
-      log('Unexpected Error: ${error.message}');
+    switch (error.type) {
+      case DioExceptionType.connectionTimeout:
+        log('Connection Timeout');
+        break;
+      case DioExceptionType.sendTimeout:
+        log('Send Timeout');
+        break;
+      case DioExceptionType.receiveTimeout:
+        log('Receive Timeout');
+        break;
+      case DioExceptionType.badResponse:
+        log('Server Error: ${error.response?.statusCode}');
+        break;
+      case DioExceptionType.cancel:
+        log('Request Cancelled');
+        break;
+      default:
+        log('Unexpected Error: ${error.message}');
+        break;
     }
   }
 }

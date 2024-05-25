@@ -22,10 +22,10 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    fetchData();
+    _fetchData();
   }
 
-  void fetchData() {
+  void _fetchData() {
     final addressesBloc = context.read<AddressesBloc>();
     addressesBloc.getAddresses();
   }

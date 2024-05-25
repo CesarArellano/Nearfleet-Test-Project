@@ -59,17 +59,17 @@ class AddressesBloc extends Cubit<AddressesState> {
     if(addresesResponse.address != null) {
       List<Address> newAddressList = [...state.addresses];
       
-      final indexFound = newAddressList.indexWhere(
+      final foundAddressIndex = newAddressList.indexWhere(
         (address) => address.id == addresesResponse.address?.id
       );
       
-      if (indexFound == -1) {
+      if (foundAddressIndex == -1) {
         return AddressResponse(
           msg: 'Address could not be modified'
         );
       }
       
-      newAddressList[indexFound] = addresesResponse.address!;
+      newAddressList[foundAddressIndex] = addresesResponse.address!;
 
       emit(state.copyWith(addresses: newAddressList));
     }
