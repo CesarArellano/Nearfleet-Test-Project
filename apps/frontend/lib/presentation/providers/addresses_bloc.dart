@@ -94,9 +94,7 @@ class AddressesBloc extends Cubit<AddressesState> {
 
     return addressesResponse;
   }
-
   
-
   bool _addressValidation(double lt, double lng) {
     return state.addresses.any((address) => address.latitude == lt && address.longitude == lng);
   }
