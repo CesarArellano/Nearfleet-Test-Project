@@ -1,3 +1,6 @@
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:nearfleet_app/config/extensions/null_extensions.dart';
+
 class AddressResponse {
   final String? msg;
   final Address? address;
@@ -8,6 +11,10 @@ class AddressResponse {
     this.address,
     this.results,
   });
+
+  factory AddressResponse.withErrorMessage() => AddressResponse(
+    msg: 'Server error, talk to the system admin',
+  );
 
   factory AddressResponse.fromJson(Map<String, dynamic> json) => AddressResponse(
     msg: json["msg"],
@@ -94,4 +101,6 @@ class Address {
     "latitude": latitude,
     "longitude": longitude,
   };
+
+  LatLng get latLng => LatLng(latitude.nonNullValue(), longitude.nonNullValue());
 }

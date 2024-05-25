@@ -13,7 +13,12 @@ final appRouter = GoRouter(
     ),
     GoRoute(
       path: '/maps',
-      builder: (_, state) => const MapsPage( ),
+      builder: (_, state) {
+        final extra = (state.extra ?? const MapsPageScreenParams().toMap()) as Map<String, dynamic>;
+        final screenParams = MapsPageScreenParams.fromMap(extra);
+
+        return MapsPage(screenParams: screenParams);
+      }
     ),
     GoRoute(
       path: '/',

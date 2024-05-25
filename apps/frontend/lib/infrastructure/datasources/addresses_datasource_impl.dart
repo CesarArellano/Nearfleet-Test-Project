@@ -17,14 +17,14 @@ class AddressesDatasourceImpl implements AddressesDatasource {
       return result;
     } catch (e) {
       log('$e');
-      return AddressResponse();
+      return AddressResponse.withErrorMessage();
     }
   }
 
   @override
   Future<bool> deleteAddress(int id) async {
     try {
-      await networkService.delete('/addresses/$int');
+      await networkService.delete('/addresses/$id');
       return true;
     } catch (e) {
       log('$e');
@@ -52,7 +52,7 @@ class AddressesDatasourceImpl implements AddressesDatasource {
       return result;
     } catch (e) {
       log('$e');
-      return AddressResponse();
+      return AddressResponse.withErrorMessage();
     }
   }
 

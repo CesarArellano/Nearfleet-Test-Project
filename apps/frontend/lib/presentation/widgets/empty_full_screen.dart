@@ -18,7 +18,7 @@ class EmptyFullScreen extends StatelessWidget {
             child: Image.asset('assets/images/empty_list_image.png', width: size)
           ),
         ),
-        const Text('Ups, no addresses registered', style: TextStyle(fontSize: 18.0),)
+        const Text('No addresses registered', style: TextStyle(fontSize: 18.0),)
       ],
     );
   }

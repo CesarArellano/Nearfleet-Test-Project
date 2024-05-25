@@ -18,11 +18,16 @@ class AddressesBloc extends Cubit<AddressesState> {
     emit(state.copyWith(addresses: addreses, isLoading: false));
   }
 
+
   Future<AddressResponse> createAddress(Address newAddress) async {
     final newLatitude = newAddress.latitude.nonNullValue();
     final newLongitude = newAddress.longitude.nonNullValue();
 
-    if (_addressValidation(newLatitude, newLongitude)) return AddressResponse();
+    if (_addressValidation(newLatitude, newLongitude)) {
+      return AddressResponse(
+        msg: 'Address already registered'
+      );
+    }
 
     _emitLoading();
 
@@ -36,6 +41,61 @@ class AddressesBloc extends Cubit<AddressesState> {
 
     return addresesResponse;
   }
+
+  Future<AddressResponse> updateAddress(Address newAddress) async {
+    final newLatitude = newAddress.latitude.nonNullValue();
+    final newLongitude = newAddress.longitude.nonNullValue();
+
+    if (_addressValidation(newLatitude, newLongitude)) {
+      return AddressResponse(
+        msg: 'Address already registered'
+      );
+    }
+
+    _emitLoading();
+
+    final addresesResponse = await addressesRepository.updateAddress(newAddress);
+    
+    if(addresesResponse.address != null) {
+      List<Address> newAddressList = [...state.addresses];
+      
+      final indexFound = newAddressList.indexWhere(
+        (address) => address.id == addresesResponse.address?.id
+      );
+      
+      if (indexFound == -1) {
+        return AddressResponse(
+          msg: 'Address could not be modified'
+        );
+      }
+      
+      newAddressList[indexFound] = addresesResponse.address!;
+
+      emit(state.copyWith(addresses: newAddressList));
+    }
+
+    emit(state.copyWith(isLoading: false));
+
+    return addresesResponse;
+  }
+
+  Future<bool> deleteAddress(int addressId) async {
+
+    _emitLoading();
+    final addressesResponse = await addressesRepository.deleteAddress(addressId);
+    
+    if(addressesResponse) {
+      List<Address> newAddressList = [...state.addresses];
+      newAddressList.removeWhere((address) => address.id == addressId);
+      emit(state.copyWith(addresses: newAddressList));
+    }
+
+    emit(state.copyWith(isLoading: false));
+
+    return addressesResponse;
+  }
+
+  
 
   bool _addressValidation(double lt, double lng) {
     return state.addresses.any((address) => address.latitude == lt && address.longitude == lng);

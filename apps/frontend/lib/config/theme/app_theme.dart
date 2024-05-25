@@ -5,9 +5,9 @@ class AppTheme {
 
   static ThemeData getTheme() {
     return ThemeData(
-      colorSchemeSeed: const Color(0xFF209BA1),
+      colorSchemeSeed: const Color.fromARGB(255, 69, 239, 191),
       appBarTheme: const AppBarTheme(
-        backgroundColor: Color(0xFF00F2FF)
+        backgroundColor: Color.fromARGB(255, 31, 238, 179)
       ),
       scaffoldBackgroundColor: Colors.white,
     );
