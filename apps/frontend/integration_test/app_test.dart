@@ -44,22 +44,30 @@ void main() {
       await tester.pumpWidget(const MyApp());
       await tester.pumpAndSettle();
 
-      final addressTileFinder = find.byType(ListTile);
+      final initialAddressTileFinder = find.byType(ListTile);
 
-      if( !addressTileFinder.tryEvaluate() ) {
-        return expect(addressTileFinder, findsNothing);
+      if( !initialAddressTileFinder.tryEvaluate() ) {
+        return expect(initialAddressTileFinder, findsNothing);
       }
 
       await Future.delayed(const Duration(seconds: 1));
-        await tester.tap(addressTileFinder);
-        await tester.pumpAndSettle();
+      await tester.tap(initialAddressTileFinder.first);
+      await tester.pumpAndSettle();
 
-        await Future.delayed(const Duration(seconds: 1));
+      await Future.delayed(const Duration(seconds: 1));
 
-        await tester.tap(find.byIcon(Icons.delete));
-        await tester.pumpAndSettle();
+      await tester.tap(find.byIcon(Icons.delete));
+      await tester.pumpAndSettle();
+      
+      await Future.delayed(const Duration(seconds: 1));
+      
+      final snackbarFinder = find.text('Address was successfully deleted');
+      
+      if( !snackbarFinder.tryEvaluate() ) {
+        return expect(snackbarFinder, findsNothing);
+      }
 
-        return expect(_getAddressTileFinder(), findsNothing);
+      return expect(snackbarFinder, findsOne);
     });
   });
 }
