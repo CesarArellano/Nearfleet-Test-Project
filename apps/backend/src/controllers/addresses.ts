@@ -7,6 +7,7 @@ export const getAddresses = async (req: Request, res: Response) => {
   try {
     res.json({
       addreses,
+      msg: "Ok",
     });
   } catch (error) {
     console.log({ error });
